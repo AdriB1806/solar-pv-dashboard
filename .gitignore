@@ -46,3 +46,4 @@ Thumbs.db
 
 # Prometheus data
 prometheus-data/
+.streamlit/secrets.toml

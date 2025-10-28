@@ -1,33 +1,56 @@
-# Docker Setup (Static CSV Data)
+# Docker Setup with Prometheus Monitoring 🐳
 
-This folder contains Docker configuration for running the dashboard locally with static CSV data.
+Run the solar dashboard locally with Docker Compose, including Prometheus metrics collection.
 
-## What's included
-- `docker-compose.yml` - Orchestrates dashboard, exporter, and Prometheus
-- `Dockerfile` - Dashboard container build
-- `Dockerfile.exporter` - Prometheus exporter container build
-- `prometheus/` - Prometheus configuration
-- `start.sh` / `stop.sh` - Helper scripts
+## What's Included
+
+- **Streamlit Dashboard** (port 8501)
+- **Prometheus Exporter** (port 8000)
+- **Prometheus Server** (port 9090)
 
 ## Quick Start
+
 ```bash
+# From project root
 cd examples/docker-setup
+
+# Start all services
 docker compose up -d
 
-# View at:
-# Dashboard: http://localhost:8501
-# Prometheus: http://localhost:9090
+# View:
+# - Dashboard: http://localhost:8501
+# - Prometheus: http://localhost:9090
+# - Metrics: http://localhost:8000/metrics
 ```
 
-## Stop
+## Stop Services
+
 ```bash
 docker compose down
 ```
 
-## When to use this
-- Testing locally before Streamlit Cloud deployment
-- Running with Prometheus monitoring
-- Self-hosted private deployment
-- Learning Docker orchestration
+## When to Use This
 
-This setup reads from `../../data/pv_data.csv` (static data).
+✅ **Use Docker when you need:**
+- Prometheus monitoring and alerting
+- Self-hosted private deployment
+- Consistent environment across machines
+- Local testing before production
+
+❌ **Skip Docker if you just want:**
+- Quick local testing → Use `streamlit run app/dashboard.py`
+- Public deployment → Use Streamlit Cloud
+
+## Files
+
+- `docker-compose.yml` - Orchestrates all services
+- `Dockerfile` - Dashboard container
+- `Dockerfile.exporter` - Metrics exporter container
+- `prometheus/prometheus.yml` - Prometheus config
+- `start.sh` / `stop.sh` - Helper scripts
+
+## Data Source
+
+Reads from `../../data/pv_data.csv` (static CSV data)
+
+For live data integration, see `../live-ingestion-api/`
