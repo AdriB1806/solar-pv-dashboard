@@ -45,51 +45,6 @@ Streamlit Cloud will build the environment from `requirements.txt`, run the app 
 Use Docker when you need a private server, more resources, or monitoring (Prometheus):
 
 ```bash
-# Start all services (dashboard + exporter + prometheus)
-│   ├── dashboard.py           # Main Streamlit dashboard
-
-# View:
-# Dashboard: http://localhost:8501
-# Prometheus UI: http://localhost:9090
-```
-
-To stop:
-
-```bash
-# Stop and remove containers
-docker compose down
-```
-
-To rebuild after code changes use `docker compose up --build -d`.
-
-│   └── prometheus_exporter.py # Prometheus metrics exporter
-├── data/
-│   └── pv_data.csv            # Solar PV data
-├── prometheus/
-│   └── prometheus.yml         # Prometheus configuration
-├── docker-compose.yml         # Docker orchestration
-├── Dockerfile                 # Dashboard container
-├── Dockerfile.exporter        # Exporter container
-├── requirements.txt           # Python dependencies
-└── README.md                  # This file
-
-```
-
-## � Running the Dashboard
-
-### Quick Start with Streamlit ✨
-```bash
-# Install
-pip install -r requirements.txt
-
-# Run
-streamlit run app/dashboard.py
-
-# View at http://localhost:8501
-```
-
-### Alternative: Docker Setup 🐳
-```bash
 # Start all services
 docker compose up -d
 
@@ -98,7 +53,9 @@ docker compose up -d
 # - Monitoring: http://localhost:9090
 ```
 
-### 🛑 How to Stop the Dashboard
+To stop:
+
+
 
 In the Terminal where it's running, press:
 ```
@@ -110,15 +67,12 @@ Or run this command in the project folder:
 docker-compose down
 ```
 
-### 🔄 How to Restart
+To rebuild after code changes use `docker compose up --build -d`.
 
-Simply run again:
-```bash
-cd ~/solar-pv-dashboard
-docker-compose up
-```
 
-(No need for `--build` unless you changed code)
+
+
+
 
 ## 📊 Understanding Your Data
 
