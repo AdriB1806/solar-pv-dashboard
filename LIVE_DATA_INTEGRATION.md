@@ -7,11 +7,21 @@ This short guide explains how to integrate continuously updating (live) data int
 
 Files in this workspace we will use
 
+<<<<<<< HEAD
 - `app/dashboard.py` — main Streamlit app (this repo's UI). 
 - `data/pv_data.csv` — example static CSV used today. 
 - `app/prometheus_exporter.py` — exporter that exposes Prometheus metrics.
 - `Dockerfile`, `Dockerfile.exporter`, `docker-compose.yml` — Docker builds and orchestration for self-hosting.
 - `.streamlit/config.toml` — streamlit server settings.
+=======
+## Files in this workspace
+- `app/dashboard.py` — main Streamlit UI (change data-loading functions here)
+- `data/pv_data.csv` — example static CSV (do NOT write live data here for Streamlit Cloud)
+- `app/prometheus_exporter.py` — optional exporter to expose metrics
+- `examples/docker-setup/` — Docker + Prometheus setup for static CSV
+- `examples/live-ingestion-api/` — (future) live data ingestion examples
+- `.streamlit/config.toml` — Streamlit settings
+>>>>>>> 836baef (refactor: reorganize repo - move Docker/Prometheus to examples/, separate static CSV from live data approaches)
 
 ---
 

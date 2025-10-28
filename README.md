@@ -45,6 +45,113 @@ Streamlit Cloud will build the environment from `requirements.txt`, run the app 
 Use Docker when you need a private server, more resources, or monitoring (Prometheus):
 
 ```bash
+<<<<<<< HEAD
+=======
+# Start all services (dashboard + exporter + prometheus)
+│   ├── dashboard.py           # Main Streamlit dashboard
+
+# View:
+# Dashboard: http://localhost:8501
+# Prometheus UI: http://localhost:9090
+```
+
+To stop:
+
+```bash
+# Stop and remove containers
+docker compose down
+```
+
+## 📁 Repository Structure
+
+```
+solar-pv-dashboard/
+├── app/
+│   ├── dashboard.py           # Main Streamlit dashboard
+│   └── prometheus_exporter.py # Prometheus metrics exporter  
+├── data/
+│   └── pv_data.csv            # Solar PV data (static example)
+├── examples/
+│   ├── docker-setup/          # Docker + Prometheus setup
+│   │   ├── docker-compose.yml
+│   │   ├── Dockerfile
+│   │   └── README.md
+│   └── live-ingestion-api/    # Future: live data examples
+├── .streamlit/                # Streamlit configuration
+├── requirements.txt           # Python dependencies
+├── LIVE_DATA_INTEGRATION.md   # Guide for live data
+└── README.md                  # This file
+```
+
+## 💻 Running & Deploying
+
+### Method 1: Streamlit (Recommended) ✨
+**For quick deployment and sharing**
+
+Local testing:
+```bash
+pip install -r requirements.txt
+streamlit run app/dashboard.py
+# Open http://localhost:8501
+```
+
+Deploy to Streamlit Cloud:
+1. Push code to GitHub
+2. Visit https://share.streamlit.io
+3. Select: `AdriB1806/solar-pv-dashboard` → `main` → `app/dashboard.py`
+4. Deploy (auto-updates on push)
+
+### Method 2: Docker (Advanced) 🐳
+**For self-hosting with monitoring**
+
+```bash
+cd examples/docker-setup
+docker compose up -d
+
+# View:
+# - Dashboard: http://localhost:8501
+# - Prometheus: http://localhost:9090
+```
+
+Stop: `docker compose down`
+
+See `examples/docker-setup/README.md` for details.
+
+## 🔄 Live Data Integration
+
+This repo currently uses static CSV data. For live/real-time data:
+- **Streamlit Cloud**: Poll a REST API or database
+- **Docker**: Add ingestion service + database
+
+See **[LIVE_DATA_INTEGRATION.md](LIVE_DATA_INTEGRATION.md)** for full guide.
+│   └── prometheus_exporter.py # Prometheus metrics exporter
+├── data/
+│   └── pv_data.csv            # Solar PV data
+├── prometheus/
+│   └── prometheus.yml         # Prometheus configuration
+├── docker-compose.yml         # Docker orchestration
+├── Dockerfile                 # Dashboard container
+├── Dockerfile.exporter        # Exporter container
+├── requirements.txt           # Python dependencies
+└── README.md                  # This file
+```
+
+## � Running the Dashboard
+
+### Quick Start with Streamlit ✨
+```bash
+# Install
+pip install -r requirements.txt
+
+# Run
+streamlit run app/dashboard.py
+
+# View at http://localhost:8501
+```
+
+### Alternative: Docker Setup 🐳
+```bash
+>>>>>>> 836baef (refactor: reorganize repo - move Docker/Prometheus to examples/, separate static CSV from live data approaches)
 # Start all services
 docker compose up -d
 
