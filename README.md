@@ -35,7 +35,7 @@ streamlit run app/dashboard.py
 ### Deploy directly from Streamlit Cloud (quick share)
 If you want the app publicly hosted with minimal ops, use Streamlit Cloud:
 
-1. Push your repo to GitHub (already done): your `app/dashboard.py` is the main file.
+1. Push your repo to GitHub : your `app/dashboard.py` is the main file.
 2. Visit https://share.streamlit.io and sign in with GitHub.
 3. Click "New app" → select `AdriB1806/solar-pv-dashboard` → branch `main` → main file `app/dashboard.py` → Deploy.
 
