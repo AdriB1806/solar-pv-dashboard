@@ -74,59 +74,28 @@ solar-pv-dashboard/
 └── README.md                  # This file
 ```
 
-## 🚀 How to Run the Dashboard
+## � Running the Dashboard
 
-### Prerequisites
-
-You need to have these installed on your Mac:
-1. **Docker Desktop** - [Download here](https://www.docker.com/products/docker-desktop)
-
-### Step-by-Step Instructions
-
-#### STEP 1: Install Docker Desktop (if not installed)
-
-1. Download Docker Desktop from: https://www.docker.com/products/docker-desktop
-2. Install it by dragging to Applications folder
-3. Open Docker Desktop and wait for it to start (whale icon in menu bar)
-
-#### STEP 2: Open Terminal and Navigate to Project
-
-Open Terminal and run:
+### Quick Start with Streamlit ✨
 ```bash
-cd ~/solar-pv-dashboard
+# Install
+pip install -r requirements.txt
+
+# Run
+streamlit run app/dashboard.py
+
+# View at http://localhost:8501
 ```
 
-#### STEP 3: Build and Start the Dashboard
-
-Run this single command to start everything:
+### Alternative: Docker Setup 🐳
 ```bash
-docker-compose up --build
+# Start all services
+docker compose up -d
+
+# View at:
+# - Dashboard: http://localhost:8501
+# - Monitoring: http://localhost:9090
 ```
-
-**What this does:**
-- Builds all Docker containers
-- Starts the Streamlit dashboard
-- Starts the Prometheus exporter
-- Starts Prometheus server
-- All services will run together
-
-**Wait for these messages:**
-- "dashboard    | You can now view your Streamlit app in your browser"
-- "pv-exporter  | Exporter running. Metrics available at http://localhost:8000/metrics"
-
-#### STEP 4: Open the Dashboard
-
-Once running, open your web browser and go to:
-```
-http://localhost:8501
-```
-
-**You should see your Solar PV Dashboard!**
-
-#### STEP 5: View Additional Services
-
-- **Prometheus Metrics**: http://localhost:8000/metrics
-- **Prometheus UI**: http://localhost:9090
 
 ### 🛑 How to Stop the Dashboard
 
