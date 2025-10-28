@@ -1,0 +1,21 @@
+# Prometheus configuration file
+
+global:
+  scrape_interval: 30s  # Scrape targets every 30 seconds
+  evaluation_interval: 30s  # Evaluate rules every 30 seconds
+  external_labels:
+    monitor: 'solar-pv-monitor'
+
+# Scrape configurations
+scrape_configs:
+  # Prometheus self-monitoring
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # Solar PV exporter
+  - job_name: 'solar-pv'
+    static_configs:
+      - targets: ['pv-exporter:8000']
+    scrape_interval: 30s
+    scrape_timeout: 10s

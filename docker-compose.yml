@@ -1,0 +1,64 @@
+# Docker Compose configuration for Solar PV Dashboard
+# This file orchestrates all services: Dashboard, Prometheus, and Exporter
+
+version: '3.8'
+
+services:
+  # Streamlit Dashboard
+  dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: solar-pv-dashboard
+    ports:
+      - "8501:8501"  # Access dashboard at http://localhost:8501
+    volumes:
+      - ./data:/app/data
+      - ./app:/app/app
+    environment:
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
+    networks:
+      - solar-pv-network
+
+  # Prometheus Exporter
+  pv-exporter:
+    build:
+      context: .
+      dockerfile: Dockerfile.exporter
+    container_name: solar-pv-exporter
+    ports:
+      - "8000:8000"  # Metrics available at http://localhost:8000/metrics
+    volumes:
+      - ./data:/app/data
+      - ./app:/app/app
+    environment:
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
+    networks:
+      - solar-pv-network
+
+  # Prometheus Server
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: solar-pv-prometheus
+    ports:
+      - "9090:9090"  # Access Prometheus at http://localhost:9090
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus-data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+    restart: unless-stopped
+    networks:
+      - solar-pv-network
+
+networks:
+  solar-pv-network:
+    driver: bridge
+
+volumes:
+  prometheus-data:
