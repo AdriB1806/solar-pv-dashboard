@@ -17,51 +17,50 @@ This dashboard can be deployed in two ways:
 - No server management needed
 - Free hosting
 - Small to medium datasets
-- Public dashboards
+## 💻 Running & Deploying the Dashboard
 
-**Limitations:**
-- Data must be uploaded to GitHub
-- Limited computing resources
-- No direct database connections
+### Quick Start with Streamlit (local) ✨
+Run locally for development or quick testing:
 
-### 2. Docker Self-Hosted (Advanced Setup) �
+```bash
+# Install dependencies
+pip install -r requirements.txt
 
-**Best for:**
-- Private deployments
-- Custom server requirements
-- Large datasets
-- Real-time data connections
-- Need for monitoring system (Prometheus)
+# Run locally
+streamlit run app/dashboard.py
 
-**Limitations:**
-- Requires server management
-- More complex setup
-- Additional hosting costs
-
-## 📊 Features
-
-This dashboard displays:
-- **Daily Yield**: Hourly energy production with yield, exported, and self-use energy
-- **Self Power Status**: Distribution between direct solar use, battery storage, and grid export
-- **Real-time Meter**: Current power output gauge
-- **Today's Summary**: Total energy metrics for the current day
-- **Monthly Statistics**: Aggregated energy data for the month
-
-## 🛠️ Technologies Used
-
-- **Python**: Programming language for data processing
-- **Streamlit**: Web dashboard framework
-- **Plotly**: Interactive charts and visualizations
-- **Pandas**: Data manipulation
-- **Prometheus**: Metrics collection and monitoring
-- **Docker**: Containerization for easy deployment
-
-## 📁 Project Structure
-
+# Open: http://localhost:8501
 ```
-solar-pv-dashboard/
-├── app/
+
+### Deploy directly from Streamlit Cloud (quick share)
+If you want the app publicly hosted with minimal ops, use Streamlit Cloud:
+
+1. Push your repo to GitHub (already done): your `app/dashboard.py` is the main file.
+2. Visit https://share.streamlit.io and sign in with GitHub.
+3. Click "New app" → select `AdriB1806/solar-pv-dashboard` → branch `main` → main file `app/dashboard.py` → Deploy.
+
+Streamlit Cloud will build the environment from `requirements.txt`, run the app and provide a public URL (the link appears in the Cloud UI). Changes pushed to `main` auto-redeploy.
+
+### Alternative: Docker (self-hosted, short)
+Use Docker when you need a private server, more resources, or monitoring (Prometheus):
+
+```bash
+# Start all services (dashboard + exporter + prometheus)
 │   ├── dashboard.py           # Main Streamlit dashboard
+
+# View:
+# Dashboard: http://localhost:8501
+# Prometheus UI: http://localhost:9090
+```
+
+To stop:
+
+```bash
+# Stop and remove containers
+docker compose down
+```
+
+To rebuild after code changes use `docker compose up --build -d`.
 │   └── prometheus_exporter.py # Prometheus metrics exporter
 ├── data/
 │   └── pv_data.csv            # Solar PV data
@@ -139,16 +138,6 @@ The CSV file (`data/pv_data.csv`) contains these columns:
 | Spannung_DC_1 (V) | DC Voltage string 1 |
 | Spannung_DC_2 (V) | DC Voltage string 2 |
 
-### How to Add More Data
-
-1. Stop the dashboard (Ctrl + C)
-2. Edit the file: `data/pv_data.csv`
-3. Add new rows following the same format
-4. Save the file
-5. Restart the dashboard: `docker-compose up`
-
-The dashboard will automatically load the new data!
-
 ## 🎨 Dashboard Features
 
 ### 1. Daily Yield Chart
@@ -178,118 +167,7 @@ The dashboard will automatically load the new data!
 - Similar metrics to daily view
 - Easy comparison
 
-## 🔧 Troubleshooting
 
-### Dashboard won't start
-
-**Problem**: "Cannot connect" or "Address already in use"
-
-**Solution**:
-```bash
-# Stop any running containers
-docker-compose down
-
-# Remove old containers
-docker-compose rm -f
-
-# Restart
-docker-compose up --build
-```
-
-### Data not showing
-
-**Problem**: Dashboard loads but no data appears
-
-**Solution**:
-1. Check if CSV file exists: `ls -la data/pv_data.csv`
-2. Check CSV file content: `head data/pv_data.csv`
-3. Make sure CSV file has data rows (not just headers)
-
-### Docker not found
-
-**Problem**: "docker: command not found"
-
-**Solution**:
-1. Install Docker Desktop
-2. Open Docker Desktop application
-3. Wait for it to fully start
-4. Try again
-
-### Port already in use
-
-**Problem**: "Port 8501 is already allocated"
-
-**Solution**:
-```bash
-# Find what's using the port
-lsof -i :8501
-
-# Kill the process (replace PID with actual number from above)
-kill -9 PID
-
-# Or change the port in docker-compose.yml
-# Change "8501:8501" to "8502:8501"
-# Then access at http://localhost:8502
-```
-
-## 📝 Customization
-
-### Change Dashboard Port
-
-Edit `docker-compose.yml`:
-```yaml
-dashboard:
-  ports:
-    - "8502:8501"  # Change first number
-```
-
-### Modify Energy Distribution
-
-Edit `app/dashboard.py`, find function `calculate_energy_distribution()`:
-```python
-direct_solar_pct = 0.48  # Change this (0.48 = 48%)
-battery_pct = 0.35       # Change this
-grid_pct = 0.17          # Change this
-```
-
-### Update Colors
-
-Edit `app/dashboard.py`, look for color codes:
-- `#2E7D32` = Dark green
-- `#FFA726` = Orange
-- `#C8E6C9` = Light green
-- `#E0E0E0` = Gray
-
-## 🐳 Docker Commands Reference
-
-```bash
-# Start everything
-docker-compose up
-
-# Start in background (detached mode)
-docker-compose up -d
-
-# Rebuild and start
-docker-compose up --build
-
-# Stop everything
-docker-compose down
-
-# View logs
-docker-compose logs
-
-# View logs for specific service
-docker-compose logs dashboard
-
-# Follow logs in real-time
-docker-compose logs -f
-
-# List running containers
-docker-compose ps
-
-# Remove everything including volumes
-docker-compose down -v
-```
 
 ## 📈 Prometheus Metrics
 
@@ -333,7 +211,7 @@ If something doesn't work:
 
 ## 📄 License
 
-This project is for educational and personal use.
+This project is for educational and personal use (THI "Project PV Dashboard")
 
 ## 👨‍💻 Author
 
