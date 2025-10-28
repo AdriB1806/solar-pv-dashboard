@@ -5,11 +5,11 @@ This short guide explains how to integrate continuously updating (live) data int
 - Streamlit (Streamlit Cloud or local `streamlit run`) — recommended for quick/public deployments.
 - Docker / self-hosted (with optional Prometheus) — recommended for private, high-throughput, or monitored deployments.
 
-Files in this workspace you will use
+Files in this workspace we will use
 
-- `app/dashboard.py` — main Streamlit app (this repo's UI). Update its data-loading functions to point to a live source.
-- `data/pv_data.csv` — example static CSV used today. Avoid writing live data into the repo when using Streamlit Cloud.
-- `app/prometheus_exporter.py` — exporter that exposes Prometheus metrics (optional).
+- `app/dashboard.py` — main Streamlit app (this repo's UI). 
+- `data/pv_data.csv` — example static CSV used today. 
+- `app/prometheus_exporter.py` — exporter that exposes Prometheus metrics.
 - `Dockerfile`, `Dockerfile.exporter`, `docker-compose.yml` — Docker builds and orchestration for self-hosting.
 - `.streamlit/config.toml` — streamlit server settings.
 
@@ -19,9 +19,9 @@ Files in this workspace you will use
 
 High-level approach
 
-- Keep the dashboard UI code in `app/dashboard.py` but change how it loads data.
-- Do NOT rely on writing/updating files in the repo when deployed to Streamlit Cloud (the filesystem there is ephemeral and you should not push large/continually-changing files to GitHub).
-- Best option: make the dashboard load from a stable external source (REST API or a database). Use caching with a short TTL so Streamlit refreshes the data periodically.
+- The dashboard UI code in `app/dashboard.py` stays , but we should change how it loads data.
+- We wont rely on writing/updating files in the repo when deployed to Streamlit Cloud (the filesystem there is ephemeral and we should not push large/continually-changing files to GitHub).
+- Best option: wenmake the dashboard load from a stable external source (REST API or a database). Use caching with a short TTL so Streamlit refreshes the data periodically.
 
 Small example: polling a REST API
 
@@ -58,6 +58,44 @@ Quick deployment via Streamlit Cloud
 3. The public URL updates automatically on pushes.
 
 ---
+
+
+## 2) Prometheus (metrics-first, good for monitoring & history)
+What is Prometheus?
+- Prometheus is a pull-based time-series monitoring system: it scrapes HTTP endpoints (exporters) and stores metrics for queries, alerting, and history.
+- Use it when you need reliable time-series storage, alerts, and easy metric aggregation.
+
+How Prometheus fits here
+- Device or exporter exposes metrics (e.g., `pv_power_ac_watts`, `pv_energy_today_kwh`) at `/metrics`.
+- Prometheus scrapes the exporter on a schedule and stores data.
+- Streamlit queries Prometheus HTTP API (`/api/v1/query` or `/api/v1/query_range`) to get latest values or ranges and render charts.
+
+Streamlit <> Prometheus (example)
+```python
+import requests, pandas as pd
+
+PROM = "http://prometheus:9090"
+
+def prom_query(query):
+    r = requests.get(f"{PROM}/api/v1/query", params={"query": query}, timeout=5); r.raise_for_status()
+    res = r.json()["data"]["result"]
+    rows = []
+    for item in res:
+        rows.append({**item.get("metric", {}), "value": float(item["value"][1])})
+    return pd.DataFrame(rows)
+```
+
+When to use Prometheus
+- You need historical time-series, dashboards for ops, or alerting.
+- You run self-hosted or have a reachable Prometheus for Streamlit Cloud (via proxy or public endpoint).
+
+Tradeoffs vs REST API
+- Prometheus is excellent for metrics and history, less suited as a CRUD store for arbitrary records.
+- It adds extra infra but gives robust retention, query power, and alerts.
+
+---
+
+
 
 ## Docker / Self-hosted — flexible and powerful
 
