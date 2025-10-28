@@ -61,6 +61,7 @@ docker compose down
 ```
 
 To rebuild after code changes use `docker compose up --build -d`.
+
 │   └── prometheus_exporter.py # Prometheus metrics exporter
 ├── data/
 │   └── pv_data.csv            # Solar PV data
@@ -71,6 +72,7 @@ To rebuild after code changes use `docker compose up --build -d`.
 ├── Dockerfile.exporter        # Exporter container
 ├── requirements.txt           # Python dependencies
 └── README.md                  # This file
+
 ```
 
 ## � Running the Dashboard
