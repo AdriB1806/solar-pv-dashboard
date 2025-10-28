@@ -1,8 +1,44 @@
-# Solar PV Energy Dashboard
+# Solar PV Energy Dashboard 🌞⚡
 
-A comprehensive dashboard for monitoring solar PV (photovoltaic) systems energy flow, built with Python, Streamlit, Docker, and Prometheus.
+A real-time dashboard for visualizing solar PV (photovoltaic) system energy production and distribution.
 
-## 📋 What This Project Does
+## 🌟 Live Demo
+
+Visit the dashboard at: [Solar PV Dashboard on Streamlit Cloud](https://adrib1806-solar-pv-dashboard-app-dashboard-xxx.streamlit.app)
+
+## 🚀 Hosting Options
+
+This dashboard can be deployed in two ways:
+
+### 1. Streamlit Cloud (Recommended for Most Users) ✅
+
+**Best for:**
+- Quick deployment
+- No server management needed
+- Free hosting
+- Small to medium datasets
+- Public dashboards
+
+**Limitations:**
+- Data must be uploaded to GitHub
+- Limited computing resources
+- No direct database connections
+
+### 2. Docker Self-Hosted (Advanced Setup) �
+
+**Best for:**
+- Private deployments
+- Custom server requirements
+- Large datasets
+- Real-time data connections
+- Need for monitoring system (Prometheus)
+
+**Limitations:**
+- Requires server management
+- More complex setup
+- Additional hosting costs
+
+## 📊 Features
 
 This dashboard displays:
 - **Daily Yield**: Hourly energy production with yield, exported, and self-use energy
